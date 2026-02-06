@@ -1,0 +1,1361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Life Systems Studio • Clarity Loop</title>
+  <meta name="description" content="A calm, step-by-step clarity and life-organization intake for Life Systems Studio." />
+
+  <style>
+    :root{
+      /* Brand palette (edit these) */
+      --ink:#2E4761;        /* deep slate blue */
+      --ink2:#17324A;       /* deeper heading */
+      --muted:#6B7E8E;      /* secondary text */
+      --line:#D9E3EC;       /* borders */
+      --bg:#EAF1F6;         /* page background */
+      --card:#FFFFFF;       /* cards */
+      --soft:#7FA6C2;       /* steel blue */
+      --soft2:#BFD3E3;      /* pale steel */
+      --accent:#F2C98A;     /* warm sunlight (sparingly) */
+      --ok:#3F7D67;         /* calm green */
+      --warn:#9B6B2F;       /* warm amber */
+      --danger:#8A2E3B;     /* muted red */
+      --shadow: 0 10px 30px rgba(23,50,74,.10);
+      --radius: 16px;
+      --radius2: 24px;
+      --max: 1100px;
+      --speed: 220ms;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1200px 800px at 70% 10%, rgba(127,166,194,.35), transparent 60%),
+                  radial-gradient(900px 600px at 10% 20%, rgba(242,201,138,.18), transparent 55%),
+                  var(--bg);
+      line-height:1.55;
+    }
+
+    /* subtle network overlay vibe (light) */
+    .bg-net{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(127,166,194,.30) 0 2px, transparent 2px),
+        radial-gradient(circle at 70% 20%, rgba(127,166,194,.25) 0 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(127,166,194,.25) 0 2px, transparent 2px),
+        radial-gradient(circle at 30% 80%, rgba(127,166,194,.20) 0 2px, transparent 2px);
+      background-size: 520px 420px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,.15));
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding: 28px 18px 64px;}
+    header{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; margin-bottom:18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width: 240px;
+    }
+    .brand img{
+      width:44px; height:44px; object-fit:contain;
+      border-radius: 10px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(217,227,236,.7);
+    }
+    .brand h1{
+      margin:0; font-size:16px; letter-spacing:.2px;
+      color:var(--ink2);
+      font-weight:700;
+    }
+    .brand .sub{
+      font-size:12px; color:var(--muted);
+      margin-top:2px;
+    }
+
+    .top-actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(217,227,236,.9);
+      background: rgba(255,255,255,.55);
+      padding:8px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero{
+      position:relative;
+      border-radius: var(--radius2);
+      overflow:hidden;
+      background: linear-gradient(110deg, rgba(255,255,255,.85), rgba(255,255,255,.55));
+      border: 1px solid rgba(217,227,236,.9);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+    .hero-card{
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(217,227,236,.9);
+      border-radius: var(--radius2);
+      padding: 18px;
+      box-shadow: 0 10px 20px rgba(23,50,74,.07);
+    }
+    .hero-title{
+      font-size: 26px;
+      margin: 0 0 8px;
+      color: var(--ink2);
+      letter-spacing: -.2px;
+    }
+    .hero-lede{
+      margin: 0 0 14px;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+    .hero-image{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(217,227,236,.9);
+      background:
+        linear-gradient(180deg, rgba(127,166,194,.25), rgba(255,255,255,.75)),
+        url("assets/hero-waterfall.png");
+      background-size: cover;
+      background-position: center;
+      min-height: 220px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-image::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(600px 220px at 30% 40%, rgba(242,201,138,.25), transparent 60%),
+                  linear-gradient(110deg, rgba(255,255,255,.05), rgba(255,255,255,.45));
+      opacity:.85;
+      pointer-events:none;
+    }
+
+    .stepper{
+      margin-top: 16px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .step-dot{
+      display:flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(217,227,236,.9);
+      background: rgba(255,255,255,.65);
+      color: var(--muted);
+      font-size: 12px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform var(--speed) ease, background var(--speed) ease;
+    }
+    .step-dot:hover{ transform: translateY(-1px); }
+    .step-dot .num{
+      width:22px; height:22px; border-radius: 999px;
+      display:grid; place-items:center;
+      border: 1px solid rgba(217,227,236,.9);
+      background: rgba(127,166,194,.18);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .step-dot.active{
+      background: rgba(127,166,194,.18);
+      color: var(--ink);
+      border-color: rgba(127,166,194,.45);
+    }
+
+    .main{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap: 18px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .main{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(217,227,236,.9);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    h2{
+      margin: 0 0 6px;
+      color: var(--ink2);
+      font-size: 18px;
+      letter-spacing: -.1px;
+    }
+    .hint{color:var(--muted); font-size:13px; margin:0 0 12px}
+    .section{display:none}
+    .section.active{display:block}
+
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap: 12px}
+    @media (max-width: 700px){ .grid2{grid-template-columns:1fr} }
+
+    label{display:block; font-size:13px; color: var(--ink2); font-weight: 650; margin-bottom: 6px}
+    input[type="text"], input[type="email"], textarea, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(217,227,236,.95);
+      background: rgba(255,255,255,.85);
+      outline: none;
+      font-size: 14px;
+      color: var(--ink2);
+      transition: border var(--speed) ease, transform var(--speed) ease;
+    }
+    textarea{min-height: 110px; resize: vertical}
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(127,166,194,.75);
+      box-shadow: 0 0 0 4px rgba(127,166,194,.18);
+    }
+
+    .row{margin: 0 0 12px}
+    .small{font-size:12px; color:var(--muted)}
+    .divider{height:1px; background: rgba(217,227,236,.95); margin: 14px 0}
+
+    .range{
+      display:grid; grid-template-columns: 1fr 52px;
+      gap: 10px; align-items:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(217,227,236,.9);
+      background: rgba(255,255,255,.7);
+    }
+    input[type="range"]{width:100%}
+    .range .val{
+      display:grid; place-items:center;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(217,227,236,.9);
+      background: rgba(127,166,194,.15);
+      color: var(--ink2);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .chips{
+      display:flex; flex-wrap:wrap; gap: 8px;
+    }
+    .chip{
+      border: 1px solid rgba(217,227,236,.95);
+      background: rgba(255,255,255,.75);
+      color: var(--ink2);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      cursor:pointer;
+      user-select:none;
+      transition: background var(--speed) ease, transform var(--speed) ease, border var(--speed) ease;
+    }
+    .chip:hover{ transform: translateY(-1px); }
+    .chip.on{
+      background: rgba(127,166,194,.20);
+      border-color: rgba(127,166,194,.55);
+    }
+
+    .radio-row{display:flex; gap:10px; flex-wrap:wrap}
+    .radio{
+      display:flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(217,227,236,.95);
+      background: rgba(255,255,255,.75);
+      cursor:pointer;
+      user-select:none;
+    }
+    .radio input{accent-color: var(--ink)}
+    .radio span{font-size: 13px; color: var(--ink2); font-weight: 650}
+
+    .actions{
+      display:flex; gap: 10px; flex-wrap:wrap;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+    .btn{
+      border: 1px solid rgba(217,227,236,.95);
+      background: rgba(255,255,255,.82);
+      color: var(--ink2);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 750;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform var(--speed) ease, background var(--speed) ease, border var(--speed) ease;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      background: linear-gradient(120deg, rgba(127,166,194,.30), rgba(255,255,255,.85));
+      border-color: rgba(127,166,194,.55);
+    }
+    .btn.ghost{
+      background: transparent;
+    }
+    .btn.danger{
+      border-color: rgba(138,46,59,.35);
+      color: var(--danger);
+      background: rgba(255,255,255,.80);
+    }
+
+    .side{
+      position: sticky;
+      top: 16px;
+    }
+    @media (max-width: 980px){ .side{position:static} }
+
+    .mini{
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(217,227,236,.95);
+      border-radius: var(--radius2);
+      padding: 14px;
+      box-shadow: 0 12px 22px rgba(23,50,74,.08);
+      backdrop-filter: blur(8px);
+    }
+    .mini h3{margin:0 0 6px; font-size: 14px; color: var(--ink2)}
+    .mini p{margin:0; font-size: 12px; color: var(--muted)}
+    .insight{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(242,201,138,.55);
+      background: rgba(242,201,138,.14);
+      color: var(--warn);
+      font-size: 12px;
+    }
+
+    .summary{
+      white-space: pre-wrap;
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(217,227,236,.95);
+      border-radius: 16px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: var(--ink2);
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background: rgba(23,50,74,.40);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-backdrop.on{display:flex}
+    .modal{
+      max-width: 680px; width: 100%;
+      border-radius: 22px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(217,227,236,.95);
+      box-shadow: 0 18px 40px rgba(23,50,74,.25);
+      padding: 16px;
+    }
+    .modal h4{margin:0 0 8px; color: var(--ink2)}
+    .modal p{margin:0 0 10px; color: var(--muted); font-size: 13px}
+    .modal .box{
+      border-radius: 16px;
+      border: 1px solid rgba(138,46,59,.22);
+      background: rgba(138,46,59,.08);
+      padding: 12px;
+      color: var(--ink2);
+      font-size: 13px;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important; scroll-behavior:auto !important}
+    }
+
+    @media print{
+      body{background:#fff}
+      .bg-net, header, .hero-image, .stepper, .actions, .top-actions, .side {display:none !important}
+      .card{box-shadow:none; border:1px solid #ddd}
+      .wrap{max-width: 900px}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-net" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="assets/lss-logo.png" alt="Life Systems Studio logo" onerror="this.style.display='none'">
+        <div>
+          <h1>Life Systems Studio</h1>
+          <div class="sub">Interactive Clarity Loop (Intake + Insight)</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <div class="pill" id="saveStatus">Local-only • Not sent anywhere</div>
+        <button class="btn ghost" id="btnSave" type="button">Save</button>
+        <button class="btn danger" id="btnClear" type="button">Clear</button>
+        <button class="btn" id="btnPrint" type="button">Print</button>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <h2 class="hero-title">Clarity comes first. Change follows naturally.</h2>
+          <p class="hero-lede">
+            This is a practical clarity and life-organization tool — not therapy, not diagnosis, not judgment.
+            Short phrases are enough. You can skip anything that feels unclear or uncomfortable.
+          </p>
+
+          <div class="stepper" id="stepper" aria-label="Steps">
+            <!-- injected -->
+          </div>
+        </div>
+
+        <div class="hero-image" aria-label="Optional hero image area"></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <main class="card" id="mainCard">
+        <!-- Step 1: Welcome / Basics -->
+        <section class="section active" data-step="0">
+          <h2>Welcome</h2>
+          <p class="hint">
+            Most overwhelm isn’t a personal failure — it’s a systems problem: too many open loops, too much friction,
+            not enough structure where it matters.
+          </p>
+
+          <div class="divider"></div>
+
+          <h2>Basics</h2>
+          <p class="hint">This helps me contact you and tailor support. (Optional fields are optional.)</p>
+
+          <div class="grid2">
+            <div class="row">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" placeholder="Your name" />
+            </div>
+
+            <div class="row">
+              <label for="pronouns">Pronouns (optional)</label>
+              <input id="pronouns" type="text" placeholder="e.g., she/her, he/him, they/them" />
+            </div>
+
+            <div class="row">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="name@email.com" />
+            </div>
+
+            <div class="row">
+              <label for="phone">Phone (optional)</label>
+              <input id="phone" type="text" placeholder="(555) 555-5555" />
+            </div>
+
+            <div class="row">
+              <label for="timezone">Time zone</label>
+              <input id="timezone" type="text" placeholder="e.g., PST / EST" />
+            </div>
+
+            <div class="row">
+              <label for="contactMethod">Preferred contact method</label>
+              <select id="contactMethod">
+                <option value="">Select…</option>
+                <option>Email</option>
+                <option>Text</option>
+                <option>Call</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <span></span>
+            <button class="btn primary" type="button" data-next>Begin</button>
+          </div>
+        </section>
+
+        <!-- Step 2: What brought you here -->
+        <section class="section" data-step="1">
+          <h2>What brought you here</h2>
+          <p class="hint">In 2–5 sentences: what made you reach out right now?</p>
+
+          <div class="row">
+            <label for="broughtHere">Response</label>
+            <textarea id="broughtHere" placeholder="What’s happening lately? What feels heavy or stuck?"></textarea>
+            <div class="small">Tip: rough is fine. honest is better than perfect.</div>
+          </div>
+
+          <div class="row">
+            <label for="successSession">What would a successful first session look like?</label>
+            <textarea id="successSession" placeholder="Be specific. What do you want to walk away with?"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Next</button>
+          </div>
+        </section>
+
+        <!-- Step 3: Snapshot -->
+        <section class="section" data-step="2">
+          <h2>Quick snapshot (today)</h2>
+          <p class="hint">Rate 0–10 (0 = none/low, 10 = extreme/high). This is a snapshot, not a score.</p>
+
+          <div class="row">
+            <label>Stress level right now</label>
+            <div class="range">
+              <input id="stress" type="range" min="0" max="10" step="1" value="5" />
+              <div class="val" id="stressVal">5</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Mental load (how “full” your mind feels)</label>
+            <div class="range">
+              <input id="mentalLoad" type="range" min="0" max="10" step="1" value="5" />
+              <div class="val" id="mentalLoadVal">5</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Energy level today</label>
+            <div class="range">
+              <input id="energy" type="range" min="0" max="10" step="1" value="5" />
+              <div class="val" id="energyVal">5</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Sense of control over your week</label>
+            <div class="range">
+              <input id="control" type="range" min="0" max="10" step="1" value="5" />
+              <div class="val" id="controlVal">5</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Next</button>
+          </div>
+        </section>
+
+        <!-- Step 4: Patterns / loop -->
+        <section class="section" data-step="3">
+          <h2>Patterns and triggers</h2>
+          <p class="hint">We’re looking for the repeatable loop — not perfection.</p>
+
+          <div class="row">
+            <label for="loopFirstSign">First sign it starts (what do you notice first?)</label>
+            <textarea id="loopFirstSign" placeholder="Example: a feeling, a thought, a message, a time of day…"></textarea>
+          </div>
+
+          <div class="row">
+            <label for="loopNext">What happens next? (thought → feeling → action → outcome)</label>
+            <textarea id="loopNext" placeholder="Describe the loop step-by-step as it typically happens."></textarea>
+          </div>
+
+          <div class="row">
+            <label for="loopAvoid">What do you tend to avoid when this starts?</label>
+            <textarea id="loopAvoid" placeholder="Calls, paperwork, decisions, a conversation, a task…"></textarea>
+          </div>
+
+          <div class="row">
+            <label for="loopEscape">Default escape under pressure</label>
+            <textarea id="loopEscape" placeholder="Scrolling, spending, isolating, overworking, snacking, etc."></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2>Permission gate</h2>
+          <p class="hint">
+            In LSS, “poking” means precision questions + permission. Not digging into trauma, not diagnosing — just naming
+            the part you keep avoiding for a moment.
+          </p>
+
+          <div class="radio-row" role="radiogroup" aria-label="Permission to look at the avoided part">
+            <label class="radio">
+              <input type="radio" name="permission" value="Yes" />
+              <span>Yes — we can name it</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="permission" value="Not today" checked />
+              <span>Not today — skip it</span>
+            </label>
+          </div>
+
+          <div class="row" id="permissionBox" style="display:none; margin-top:12px">
+            <label for="permissionAvoided">What’s the “sensitive part” you keep avoiding? (1–2 lines)</label>
+            <textarea id="permissionAvoided" placeholder="A looping decision, paperwork, a money uncertainty, a conversation, an identity conflict…"></textarea>
+            <div class="small">We’re naming it, not analyzing it.</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Next</button>
+          </div>
+        </section>
+
+        <!-- Step 5: Triggers -->
+        <section class="section" data-step="4">
+          <h2>Triggers</h2>
+          <p class="hint">These help us design guardrails and reduce bad “piece placement”.</p>
+
+          <div class="chips" id="triggerChips" aria-label="Trigger options">
+            <!-- injected -->
+          </div>
+
+          <div class="row" style="margin-top:12px">
+            <label for="triggerOther">Other triggers (optional)</label>
+            <input id="triggerOther" type="text" placeholder="Anything else that tends to set it off?" />
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Next</button>
+          </div>
+        </section>
+
+        <!-- Step 6: Costs + levers -->
+        <section class="section" data-step="5">
+          <h2>Costs, levers, and next steps</h2>
+          <p class="hint">Most patterns have a short-term payoff and a long-term cost. Name both.</p>
+
+          <div class="grid2">
+            <div class="row">
+              <label for="payoffShort">What does this pattern do for you short-term?</label>
+              <textarea id="payoffShort" placeholder="Relief, escape, certainty, control, distraction, comfort…"></textarea>
+            </div>
+            <div class="row">
+              <label for="costLong">What does it cost long-term?</label>
+              <textarea id="costLong" placeholder="Work, money, relationships, health, time, attention…"></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="twelveMonths">If nothing changed for 12 months, what breaks?</label>
+            <textarea id="twelveMonths" placeholder="What becomes unsustainable?"></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2>Foundations check (quick)</h2>
+          <p class="hint">Check any that feel unstable right now.</p>
+          <div class="chips" id="foundationChips"></div>
+
+          <div class="divider"></div>
+
+          <h2>Levers</h2>
+          <p class="hint">Think of the times you were doing better. What was different?</p>
+
+          <div class="row">
+            <label for="doingWell">When you’re doing well, what is different?</label>
+            <textarea id="doingWell" placeholder="Routines, environment, support, boundaries, fewer choices…"></textarea>
+          </div>
+
+          <div class="row">
+            <label>What support do you need most?</label>
+            <div class="radio-row">
+              <label class="radio"><input type="radio" name="supportNeed" value="Structure"><span>Structure</span></label>
+              <label class="radio"><input type="radio" name="supportNeed" value="Accountability"><span>Accountability</span></label>
+              <label class="radio"><input type="radio" name="supportNeed" value="Tools"><span>Tools</span></label>
+              <label class="radio"><input type="radio" name="supportNeed" value="Emotional safety"><span>Emotional safety</span></label>
+              <label class="radio"><input type="radio" name="supportNeed" value="Not sure" checked><span>Not sure</span></label>
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="boundary">What boundary do you know you need?</label>
+            <textarea id="boundary" placeholder="Example: no screens after 10pm, protect mornings, limit overtime, say no to X…"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Next</button>
+          </div>
+        </section>
+
+        <!-- Step 7: Next 30 days + acknowledgement -->
+        <section class="section" data-step="6">
+          <h2>Next 30 days</h2>
+          <p class="hint">What would “frictionless” look like in 30 days? (simple and realistic)</p>
+
+          <div class="row">
+            <label for="frictionless30">Response</label>
+            <textarea id="frictionless30" placeholder="What would feel lighter, calmer, or more contained?"></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2>Acknowledgement (non-clinical)</h2>
+          <p class="hint">
+            Life Systems Studio provides coaching, life organization, and decision-support services.
+            This is not therapy or counseling, and no diagnosis or mental health treatment is provided.
+            If you are in crisis or need urgent support, contact local emergency services or a licensed professional.
+          </p>
+
+          <div class="grid2">
+            <div class="row">
+              <label for="agreeName">Signature (type)</label>
+              <input id="agreeName" type="text" placeholder="Type your name" />
+            </div>
+            <div class="row">
+              <label for="agreeDate">Date</label>
+              <input id="agreeDate" type="text" placeholder="YYYY-MM-DD" />
+              <div class="small">Tip: you can type “today”.</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <button class="btn primary" type="button" data-next>Generate summary</button>
+          </div>
+        </section>
+
+        <!-- Step 8: Summary -->
+        <section class="section" data-step="7">
+          <h2>Insight summary</h2>
+          <p class="hint">
+            This is a calm summary you can copy, print, or bring to your session. (Local-only unless you choose to share it.)
+          </p>
+
+          <div class="row">
+            <div class="summary" id="summaryBox">Generating…</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-prev>Back</button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap">
+              <button class="btn" type="button" id="btnCopy">Copy</button>
+              <button class="btn" type="button" id="btnDownload">Download .txt</button>
+              <button class="btn primary" type="button" id="btnFinish">Finish</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="side">
+        <div class="mini">
+          <h3>Live feedback</h3>
+          <p id="liveFeedback">Move through the steps. The page will surface a gentle insight as you go.</p>
+          <div class="insight" id="insightPill">Better placement • Less friction • More stability</div>
+        </div>
+
+        <div class="mini" style="margin-top:12px">
+          <h3>Privacy</h3>
+          <p>
+            This prototype saves to your browser (localStorage) only. No network calls are made.
+          </p>
+          <div class="divider"></div>
+          <p class="small" id="progressText">Step 1 of 8</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Crisis / Safety modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="Safety check">
+    <div class="modal">
+      <h4>Pause — quick safety check</h4>
+      <p>
+        This space is for non-clinical clarity and organization. If you’re feeling unsafe or in crisis, you deserve immediate support.
+      </p>
+      <div class="box">
+        <strong>If you’re in the U.S.:</strong><br/>
+        • Call or text <strong>988</strong> (Suicide &amp; Crisis Lifeline)<br/>
+        • If you’re in immediate danger, call <strong>911</strong><br/><br/>
+        <strong>Outside the U.S.:</strong> contact your local emergency number or a local crisis hotline.
+      </div>
+      <div class="actions" style="margin-top:12px">
+        <button class="btn" id="btnModalClose" type="button">I understand</button>
+        <button class="btn primary" id="btnModalContinue" type="button">Continue anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ---------------------------
+       Simple LSS Intake Prototype
+       - No external libraries
+       - Local-only persistence
+    ---------------------------- */
+    const STORE_KEY = "lss_intake_v1";
+
+    const steps = [
+      { id: 0, name: "Welcome" },
+      { id: 1, name: "Why now" },
+      { id: 2, name: "Snapshot" },
+      { id: 3, name: "Loop" },
+      { id: 4, name: "Triggers" },
+      { id: 5, name: "Costs & levers" },
+      { id: 6, name: "30 days + scope" },
+      { id: 7, name: "Summary" }
+    ];
+
+    const triggers = [
+      "Heavy workload / deadlines",
+      "Conflict with someone",
+      "Money stress",
+      "Lack of sleep",
+      "Health or pain flare-ups",
+      "Loneliness / disconnection",
+      "Weekends / unstructured time",
+      "Evenings / late night",
+      "Phone / social media spirals",
+      "Alcohol / substances",
+      "Clutter / environment",
+      "Uncertainty / too many choices"
+    ];
+
+    const foundations = [
+      "Sleep schedule",
+      "Food / nutrition routine",
+      "Movement / exercise",
+      "Focus / attention",
+      "Home environment / clutter",
+      "Calendar / appointments",
+      "Money / bills / admin",
+      "Support system / connection"
+    ];
+
+    const crisisKeywords = [
+      "suicide","kill myself","end my life","self harm","self-harm","hurt myself","i want to die","i dont want to live",
+      "overdose","die","can't go on","cant go on"
+    ];
+
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+    const elStepper = $("#stepper");
+    const elProgressText = $("#progressText");
+    const elLiveFeedback = $("#liveFeedback");
+    const elInsightPill = $("#insightPill");
+    const elSummaryBox = $("#summaryBox");
+    const elSaveStatus = $("#saveStatus");
+
+    let currentStep = 0;
+
+    // Build stepper UI
+    function buildStepper(){
+      elStepper.innerHTML = "";
+      steps.forEach((s) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "step-dot";
+        btn.dataset.goto = String(s.id);
+        btn.innerHTML = `<span class="num">${s.id+1}</span><span>${s.name}</span>`;
+        btn.addEventListener("click", () => goToStep(s.id));
+        elStepper.appendChild(btn);
+      });
+      syncStepper();
+    }
+
+    function syncStepper(){
+      $$(".step-dot").forEach((b) => b.classList.toggle("active", Number(b.dataset.goto) === currentStep));
+      elProgressText.textContent = `Step ${currentStep+1} of ${steps.length}`;
+    }
+
+    // Build chips
+    function buildChips(containerId, list, storeSetName){
+      const wrap = document.getElementById(containerId);
+      wrap.innerHTML = "";
+      list.forEach((t) => {
+        const c = document.createElement("div");
+        c.className = "chip";
+        c.textContent = t;
+        c.dataset.value = t;
+        c.addEventListener("click", () => {
+          c.classList.toggle("on");
+          saveLocalDebounced();
+          updateLiveFeedback();
+        });
+        wrap.appendChild(c);
+      });
+    }
+
+    // Step navigation
+    function goToStep(n){
+      // Safety scan before moving forward
+      if (n > currentStep) {
+        if (containsCrisisSignals()) {
+          openSafetyModal();
+          // allow user to continue; we don't block permanently
+        }
+      }
+
+      currentStep = Math.max(0, Math.min(steps.length-1, n));
+      $$(".section").forEach(sec => sec.classList.toggle("active", Number(sec.dataset.step) === currentStep));
+      syncStepper();
+      updateLiveFeedback();
+
+      // If entering summary, generate it
+      if (currentStep === 7) {
+        generateSummary();
+      }
+    }
+
+    function nextStep(){ goToStep(currentStep + 1); }
+    function prevStep(){ goToStep(currentStep - 1); }
+
+    // Range value sync
+    function bindRange(id, outId){
+      const r = document.getElementById(id);
+      const o = document.getElementById(outId);
+      const sync = () => { o.textContent = r.value; saveLocalDebounced(); updateLiveFeedback(); };
+      r.addEventListener("input", sync);
+      sync();
+    }
+
+    // Permission gate toggle
+    function bindPermission(){
+      const box = $("#permissionBox");
+      $$('input[name="permission"]').forEach(r => {
+        r.addEventListener("change", () => {
+          const yes = $$('input[name="permission"]').find(x => x.checked)?.value === "Yes";
+          box.style.display = yes ? "block" : "none";
+          saveLocalDebounced();
+        });
+      });
+    }
+
+    // Date helper
+    function normalizeDate(s){
+      if (!s) return "";
+      const v = String(s).trim().toLowerCase();
+      if (v === "today") return new Date().toISOString().slice(0,10);
+      return s.trim();
+    }
+
+    // Data access helpers
+    function chipValues(containerId){
+      return Array.from(document.querySelectorAll(`#${containerId} .chip.on`)).map(x => x.dataset.value);
+    }
+
+    function getSupportNeed(){
+      return $$('input[name="supportNeed"]').find(x => x.checked)?.value || "";
+    }
+
+    function getPermission(){
+      return $$('input[name="permission"]').find(x => x.checked)?.value || "Not today";
+    }
+
+    function getFormData(){
+      return {
+        basics: {
+          fullName: $("#fullName").value.trim(),
+          pronouns: $("#pronouns").value.trim(),
+          email: $("#email").value.trim(),
+          phone: $("#phone").value.trim(),
+          timezone: $("#timezone").value.trim(),
+          contactMethod: $("#contactMethod").value
+        },
+        whyNow: {
+          broughtHere: $("#broughtHere").value.trim(),
+          successSession: $("#successSession").value.trim()
+        },
+        snapshot: {
+          stress: Number($("#stress").value),
+          mentalLoad: Number($("#mentalLoad").value),
+          energy: Number($("#energy").value),
+          control: Number($("#control").value)
+        },
+        loop: {
+          firstSign: $("#loopFirstSign").value.trim(),
+          next: $("#loopNext").value.trim(),
+          avoid: $("#loopAvoid").value.trim(),
+          escape: $("#loopEscape").value.trim(),
+          permission: getPermission(),
+          avoidedPart: $("#permissionAvoided").value.trim()
+        },
+        triggers: {
+          selected: chipValues("triggerChips"),
+          other: $("#triggerOther").value.trim()
+        },
+        costsLevers: {
+          payoffShort: $("#payoffShort").value.trim(),
+          costLong: $("#costLong").value.trim(),
+          twelveMonths: $("#twelveMonths").value.trim(),
+          foundations: chipValues("foundationChips"),
+          doingWell: $("#doingWell").value.trim(),
+          supportNeed: getSupportNeed(),
+          boundary: $("#boundary").value.trim()
+        },
+        next30: {
+          frictionless30: $("#frictionless30").value.trim()
+        },
+        scope: {
+          signature: $("#agreeName").value.trim(),
+          date: normalizeDate($("#agreeDate").value.trim())
+        },
+        meta: {
+          updatedAt: new Date().toISOString(),
+          version: 1
+        }
+      };
+    }
+
+    // Live feedback (gentle heuristics)
+    function updateLiveFeedback(){
+      const d = getFormData();
+      const s = d.snapshot;
+
+      // Insight based on snapshot
+      let msg = "Move through the steps. The page will surface a gentle insight as you go.";
+      let pill = "Better placement • Less friction • More stability";
+
+      const highMental = s.mentalLoad >= 7;
+      const lowControl = s.control <= 3;
+      const lowEnergy = s.energy <= 3;
+      const highStress = s.stress >= 7;
+
+      if (highMental && lowControl) {
+        msg = "High mental load + low control often means: too many open loops. Containment helps fast.";
+        pill = "Contain loops • Reduce choices";
+      } else if (highStress && lowEnergy) {
+        msg = "High stress + low energy: this is usually a capacity issue, not a character issue. Shrink the next step.";
+        pill = "Smaller move • Lower friction";
+      } else if (highStress && lowControl) {
+        msg = "High stress + low control: guardrails (triggers, boundaries, sequence) matter more than willpower.";
+        pill = "Guardrails • Sequence first";
+      } else if (lowEnergy) {
+        msg = "Low energy today: choose a next step that proves movement without draining you.";
+        pill = "Tiny action • Evidence of progress";
+      }
+
+      // Add trigger cluster note
+      const t = d.triggers.selected.length + (d.triggers.other ? 1 : 0);
+      if (t >= 4) {
+        msg += " You’ve got multiple triggers—designing a few simple guardrails can create immediate relief.";
+      }
+
+      elLiveFeedback.textContent = msg;
+      elInsightPill.textContent = pill;
+    }
+
+    // Summary generation
+    function pickDominantFriction(d){
+      const {stress, mentalLoad, energy, control} = d.snapshot;
+      // simplest: pick the "largest problem signal"
+      // (high stress, high load, low energy, low control)
+      const signals = [
+        {k:"Stress", v: stress},
+        {k:"Mental load", v: mentalLoad},
+        {k:"Low energy", v: 10 - energy},
+        {k:"Low control", v: 10 - control}
+      ];
+      signals.sort((a,b) => b.v - a.v);
+      return signals[0].k;
+    }
+
+    function suggestSmallestMove(d){
+      const boundary = d.costsLevers.boundary;
+      if (boundary) return `Define one boundary and protect it for 7 days: ${boundary}`;
+      if (d.loop.avoid) return `Do the tiniest action that “names” the avoided thing (2 minutes): ${d.loop.avoid.slice(0,120)}…`;
+      return "Contain the loop in one place (one note / one list), then take one tiny action that reduces pressure.";
+    }
+
+    function formatList(arr){
+      if (!arr || !arr.length) return "—";
+      return arr.map(x => `- ${x}`).join("\n");
+    }
+
+    function generateSummary(){
+      const d = getFormData();
+
+      const dom = pickDominantFriction(d);
+      const trig = [...d.triggers.selected, d.triggers.other].filter(Boolean);
+      const foundationsSel = d.costsLevers.foundations || [];
+
+      const permissionLine = (d.loop.permission === "Yes" && d.loop.avoidedPart)
+        ? `Named avoided part (permission-based): ${d.loop.avoidedPart}`
+        : "Permission gate: skipped (not today).";
+
+      const summary =
+`LIFE SYSTEMS STUDIO — INTAKE + INSIGHT SUMMARY
+Updated: ${new Date(d.meta.updatedAt).toLocaleString()}
+
+BASICS
+Name: ${d.basics.fullName || "—"}  Pronouns: ${d.basics.pronouns || "—"}
+Email: ${d.basics.email || "—"}  Phone: ${d.basics.phone || "—"}
+Time zone: ${d.basics.timezone || "—"}  Contact: ${d.basics.contactMethod || "—"}
+
+WHY NOW
+What brought you here:
+${d.whyNow.broughtHere || "—"}
+
+Successful first session looks like:
+${d.whyNow.successSession || "—"}
+
+SNAPSHOT (0–10)
+Stress: ${d.snapshot.stress}
+Mental load: ${d.snapshot.mentalLoad}
+Energy: ${d.snapshot.energy}
+Control: ${d.snapshot.control}
+Dominant signal: ${dom}
+
+THE LOOP (REPEATABLE PATTERN)
+First sign:
+${d.loop.firstSign || "—"}
+
+What happens next:
+${d.loop.next || "—"}
+
+What you avoid:
+${d.loop.avoid || "—"}
+
+Default escape under pressure:
+${d.loop.escape || "—"}
+
+${permissionLine}
+
+TRIGGERS (GUARDRAILS)
+${formatList(trig)}
+
+COSTS + LEVERS
+Short-term payoff:
+${d.costsLevers.payoffShort || "—"}
+
+Long-term cost:
+${d.costsLevers.costLong || "—"}
+
+If nothing changed for 12 months, what breaks:
+${d.costsLevers.twelveMonths || "—"}
+
+Foundations that feel unstable:
+${formatList(foundationsSel)}
+
+When you're doing well, what's different:
+${d.costsLevers.doingWell || "—"}
+
+Support needed most:
+${d.costsLevers.supportNeed || "—"}
+
+Known boundary:
+${d.costsLevers.boundary || "—"}
+
+NEXT 30 DAYS (FRICTIONLESS VISION)
+${d.next30.frictionless30 || "—"}
+
+SUGGESTED SMALLEST MOVE (PROVES MOVEMENT)
+${suggestSmallestMove(d)}
+
+NON-CLINICAL SCOPE
+Signature: ${d.scope.signature || "—"}   Date: ${d.scope.date || "—"}
+`;
+
+      elSummaryBox.textContent = summary;
+      saveLocalDebounced();
+    }
+
+    // Crisis detection: very simple keyword scan across free-text fields
+    function containsCrisisSignals(){
+      const d = getFormData();
+      const text = [
+        d.whyNow.broughtHere, d.whyNow.successSession,
+        d.loop.firstSign, d.loop.next, d.loop.avoid, d.loop.escape, d.loop.avoidedPart,
+        d.costsLevers.payoffShort, d.costsLevers.costLong, d.costsLevers.twelveMonths,
+        d.costsLevers.doingWell, d.costsLevers.boundary,
+        d.next30.frictionless30
+      ].join(" ").toLowerCase();
+
+      return crisisKeywords.some(k => text.includes(k));
+    }
+
+    // Modal control
+    function openSafetyModal(){
+      $("#modalBackdrop").classList.add("on");
+    }
+    function closeSafetyModal(){
+      $("#modalBackdrop").classList.remove("on");
+    }
+
+    // Local persistence
+    let saveTimer = null;
+    function saveLocalDebounced(){
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveLocal, 220);
+    }
+
+    function saveLocal(){
+      const data = getFormData();
+      localStorage.setItem(STORE_KEY, JSON.stringify(data));
+      elSaveStatus.textContent = "Saved locally • Not sent anywhere";
+    }
+
+    function loadLocal(){
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      try{
+        const d = JSON.parse(raw);
+
+        // basics
+        $("#fullName").value = d.basics?.fullName || "";
+        $("#pronouns").value = d.basics?.pronouns || "";
+        $("#email").value = d.basics?.email || "";
+        $("#phone").value = d.basics?.phone || "";
+        $("#timezone").value = d.basics?.timezone || "";
+        $("#contactMethod").value = d.basics?.contactMethod || "";
+
+        // why now
+        $("#broughtHere").value = d.whyNow?.broughtHere || "";
+        $("#successSession").value = d.whyNow?.successSession || "";
+
+        // snapshot
+        $("#stress").value = d.snapshot?.stress ?? 5;
+        $("#mentalLoad").value = d.snapshot?.mentalLoad ?? 5;
+        $("#energy").value = d.snapshot?.energy ?? 5;
+        $("#control").value = d.snapshot?.control ?? 5;
+
+        // loop
+        $("#loopFirstSign").value = d.loop?.firstSign || "";
+        $("#loopNext").value = d.loop?.next || "";
+        $("#loopAvoid").value = d.loop?.avoid || "";
+        $("#loopEscape").value = d.loop?.escape || "";
+        $("#permissionAvoided").value = d.loop?.avoidedPart || "";
+
+        // permission radio
+        const perm = d.loop?.permission || "Not today";
+        $$('input[name="permission"]').forEach(r => r.checked = (r.value === perm));
+        $("#permissionBox").style.display = (perm === "Yes") ? "block" : "none";
+
+        // triggers
+        $("#triggerOther").value = d.triggers?.other || "";
+        const trigSel = new Set(d.triggers?.selected || []);
+        $$("#triggerChips .chip").forEach(c => c.classList.toggle("on", trigSel.has(c.dataset.value)));
+
+        // costs/levers
+        $("#payoffShort").value = d.costsLevers?.payoffShort || "";
+        $("#costLong").value = d.costsLevers?.costLong || "";
+        $("#twelveMonths").value = d.costsLevers?.twelveMonths || "";
+        $("#doingWell").value = d.costsLevers?.doingWell || "";
+        $("#boundary").value = d.costsLevers?.boundary || "";
+
+        const foundSel = new Set(d.costsLevers?.foundations || []);
+        $$("#foundationChips .chip").forEach(c => c.classList.toggle("on", foundSel.has(c.dataset.value)));
+
+        const sn = d.costsLevers?.supportNeed || "Not sure";
+        $$('input[name="supportNeed"]').forEach(r => r.checked = (r.value === sn));
+
+        // next30 + scope
+        $("#frictionless30").value = d.next30?.frictionless30 || "";
+        $("#agreeName").value = d.scope?.signature || "";
+        $("#agreeDate").value = d.scope?.date || "";
+
+        elSaveStatus.textContent = "Loaded from local save";
+      } catch(e){
+        console.warn("Failed to load saved data", e);
+      }
+    }
+
+    function clearAll(){
+      if (!confirm("Clear all fields and local save?")) return;
+      localStorage.removeItem(STORE_KEY);
+      location.reload();
+    }
+
+    // Copy & download
+    async function copySummary(){
+      try{
+        await navigator.clipboard.writeText(elSummaryBox.textContent || "");
+        elSaveStatus.textContent = "Copied summary to clipboard";
+      } catch(e){
+        alert("Copy failed (browser restriction). You can manually select + copy the text.");
+      }
+    }
+
+    function downloadTxt(){
+      const text = elSummaryBox.textContent || "";
+      const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "LSS_Intake_Summary.txt";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // Bind generic inputs
+    function bindAutoSave(){
+      $$("input, textarea, select").forEach(el => {
+        el.addEventListener("input", () => {
+          // normalize date if user typed today
+          if (el.id === "agreeDate") el.value = normalizeDate(el.value);
+          saveLocalDebounced();
+          updateLiveFeedback();
+        });
+      });
+    }
+
+    // Wire step nav buttons
+    function bindNavButtons(){
+      $$("[data-next]").forEach(b => b.addEventListener("click", nextStep));
+      $$("[data-prev]").forEach(b => b.addEventListener("click", prevStep));
+    }
+
+    // Init
+    function init(){
+      buildStepper();
+      buildChips("triggerChips", triggers);
+      buildChips("foundationChips", foundations);
+
+      bindRange("stress","stressVal");
+      bindRange("mentalLoad","mentalLoadVal");
+      bindRange("energy","energyVal");
+      bindRange("control","controlVal");
+
+      bindPermission();
+      bindAutoSave();
+      bindNavButtons();
+
+      // modal buttons
+      $("#btnModalClose").addEventListener("click", closeSafetyModal);
+      $("#btnModalContinue").addEventListener("click", closeSafetyModal);
+
+      // top actions
+      $("#btnSave").addEventListener("click", saveLocal);
+      $("#btnClear").addEventListener("click", clearAll);
+      $("#btnPrint").addEventListener("click", () => window.print());
+
+      // summary actions
+      $("#btnCopy").addEventListener("click", copySummary);
+      $("#btnDownload").addEventListener("click", downloadTxt);
+      $("#btnFinish").addEventListener("click", () => {
+        alert("Done. You can print or download your summary. (Local-only unless you share it.)");
+      });
+
+      loadLocal();
+      updateLiveFeedback();
+
+      // Start at welcome
+      goToStep(0);
+    }
+
+    init();
+  </script>
+</body>
+</html>
